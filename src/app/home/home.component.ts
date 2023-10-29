@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
   public products: any;
   public filteredProducts: any[] = [];
   selectedCategory: string | null = null;
-  productCategoriesList: any
+  productCategoriesList: any;
 
   categories: any[] = [];
   constructor(private product: ProductsService) {}
@@ -35,15 +35,14 @@ export class HomeComponent implements OnInit {
     this.product.productList().subscribe((data) => {
       this.products = data;
       console.log('this.products', this.products);
-      this.categories =  this.extractCategories(this.products);
+      this.categories = this.extractCategories(this.products);
       this.filteredProducts = this.products;
       console.log('this.this.categories', this.categories);
-
     });
 
     this.product.getAllProductCategories().subscribe((data) => {
       this.productCategoriesList = data;
-      console.log("productCategoriesList", this.productCategoriesList)
+      console.log('productCategoriesList', this.productCategoriesList);
     });
   }
 
@@ -53,15 +52,24 @@ export class HomeComponent implements OnInit {
     return Array.from(categories).map((name) => ({ name, image: '' }));
   }
 
-  selectCategory(categoryName: string | null): void {debugger
+  selectCategory(categoryName: string | null): void {
     if (categoryName) {
-      this.filteredProducts = this.products.filter((product: any) => product.category.name === categoryName);
-      console.log('this.this. this.filteredProducts',  this.filteredProducts);
-
+      const filterString = categoryName.toLowerCase(); // Convert to lowercase for case-insensitive matching
+      this.filteredProducts = this.products.filter((product: any) => {
+        if (Array.isArray(product.category.name)) {
+          return product.category.name.some((category: string) =>
+            category.toLowerCase().includes(filterString)
+          );
+        }
+        return false; // No match found
+      });
     } else {
       this.filteredProducts = this.products;
     }
+    console.log('Filtered products:', this.filteredProducts);
   }
+  
+  
 
   filterProducts() {
     if (this.selectedCategory === null) {
@@ -71,7 +79,6 @@ export class HomeComponent implements OnInit {
         (product: { category: string | null }) =>
           product.category === this.selectedCategory
       );
-      
     }
   }
 }
