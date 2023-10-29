@@ -1,0 +1,43 @@
+<div class="product-list">
+  <div class="product-list">
+    <h1>Product List</h1>
+    <p class="message-p">{{ productMessage }}</p>
+    <div class="product-cards">
+      <div class="product-card" *ngFor="let item of productList">
+        <img
+          src="{{ item.image }}"
+          alt="{{ item.name }}"
+          class="product-image"
+        />
+        <h2 class="product-name">{{ item.name }}</h2>
+        <p class="product-price">Price: ${{ item.price }}</p>
+        <p class="product-color">Color: {{ item.color }}</p>
+        <p class="product-category">Category: {{ item.category }}</p>
+        <p class="product-description">{{ item.description }}</p>
+        <div class="product-actions">
+          <i (click)="deleteProduct(item.id)" class="gg-trash"></i>
+          <a routerLink="/seller-update-product/{{ item.id }}">
+            <i class="gg-pen"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="product-categories-list">
+  <div class="product-list">
+    <h1>Product Categories List</h1>
+    <p class="message-p">{{ productMessage }}</p>
+    <div class="product-cards">
+      <div class="product-card" *ngFor="let item of productCategoriesList">
+        <img
+          src="{{ item.image }}"
+          alt="{{ item.name }}"
+          class="product-image"
+        />
+        <h2 class="product-name">{{ item.name }}</h2>
+      </div>
+    </div>
+  </div>
+</div>

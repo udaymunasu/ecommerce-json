@@ -1,0 +1,40 @@
+<h1 class="title">Product Categories</h1>
+<app-carousel  [carouselItems]="productCategoriesList"></app-carousel>
+<div class="category-buttons">
+  <button (click)="selectCategory(null)" class="category-button">All</button>
+  <ng-container *ngFor="let category of productCategoriesList">
+    <div class="category-card"  (click)="selectCategory(category.name)">
+      <img
+        [src]="category.image ? category.image : ''"
+        [alt]="category.name"
+        class="category-img"
+      />
+      <button class="category-button">
+        {{ category.name }}
+      </button>
+    </div>
+  </ng-container>
+</div>
+
+<div class="product-list">
+  <div
+    class="product-card"
+    *ngFor="let product of filteredProducts"
+    [@fadeInOut]
+  >
+    <div class="card">
+      <div class="image-container">
+        <img
+          [src]="product.image ? product.image : ''"
+          [alt]="product.name"
+          class="card-img-top"
+        />
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">{{ product.name }}</h2>
+        <p class="card-description">{{ product.description }}</p>
+        <p class="card-price">Price: {{ product.price }}</p>
+      </div>
+    </div>
+  </div>
+</div>
